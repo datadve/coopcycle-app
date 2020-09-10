@@ -13,8 +13,6 @@ import {
   failedIconName,
   taskTypeIconName,
 } from '../navigation/task/styles/common'
-import { selectTasksWithColor } from 'coopcycle-frontend-js'
-import {connect} from 'react-redux'
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -207,23 +205,13 @@ TaskListItem.defaultProps = {
 
 TaskListItem.propTypes = {
   task: PropTypes.object.isRequired,
+  color: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   onPress: PropTypes.func,
   onPressLeft: PropTypes.func,
   onPressRight: PropTypes.func,
 }
 
-function mapStateToProps(state, ownProps) {
-  const tasksWithColor = selectTasksWithColor(state.dispatch)
-
-  const color = Object.prototype.hasOwnProperty.call(tasksWithColor, ownProps.task['@id']) ?
-    tasksWithColor[ownProps.task['@id']] : '#ffffff'
-
-  return {
-    color
-  }
-}
-
 // We need to use "withRef" prop,
 // for react-native-swipe-list-view CellRenderer to not trigger a warning
-export default connect(mapStateToProps)(withTranslation([ 'common' ], { withRef: true })(TaskListItem))
+export default withTranslation([ 'common' ], { withRef: true })(TaskListItem)
